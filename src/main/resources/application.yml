@@ -1,0 +1,74 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: member
+          uri: http://localhost:8081
+          predicates:
+            - Path=/members/** 
+        - id: dormantmember
+          uri: http://localhost:8082
+          predicates:
+            - Path=/dormantMembers/** 
+        - id: managerMessage
+          uri: http://localhost:8083
+          predicates:
+            - Path=/managerMessages/** 
+        - id: managerpage
+          uri: http://localhost:8084
+          predicates:
+            - Path= /managerpages/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: member
+          uri: http://member:8080
+          predicates:
+            - Path=/members/** 
+        - id: dormantmember
+          uri: http://dormantmember:8080
+          predicates:
+            - Path=/dormantMembers/** 
+        - id: managerMessage
+          uri: http://managerMessage:8080
+          predicates:
+            - Path=/managerMessages/** 
+        - id: managerpage
+          uri: http://managerpage:8080
+          predicates:
+            - Path= /managerpages/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
